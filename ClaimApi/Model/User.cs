@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection.Emit;
+using System.Text.Json.Serialization;
 
 namespace ClaimApi.Model;
 
@@ -22,8 +23,9 @@ public class User
 
     public string Zipcode { get; set; }
 
-    public string Latitude { get; set; }
+    public double Latitude { get; set; }
 
-    public string Longitude { get; set; }
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; set; }
 
 }

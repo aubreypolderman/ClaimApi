@@ -20,37 +20,71 @@ namespace ClaimApi.Controllers
             _context = context;
         }
 
-        // GET: api/RepairCompanys
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompany()
+        // POST: api/RepairCompanies
+        [HttpPost]
+        public async Task<ActionResult<RepairCompany>> PostRepairCompany(RepairCompany repairCompany)
         {
-          if (_context.RepairCompanies == null)
-          {
-              return NotFound();
-          }
+            if (_context.RepairCompanies == null)
+            {
+                return Problem("Entity set 'RepairCompanyContext.RepairCompany' is null.");
+            }
+            _context.RepairCompanies.Add(repairCompany);
+            await _context.SaveChangesAsync();
+
+            // 13-03-2023 replace with nameof
+            return CreatedAtAction(nameof(GetRepairCompany), new { id = repairCompany.Id }, repairCompany);
+        }
+
+        // GET: api/RepairCompanies
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompanies()
+        {
+            if (_context.RepairCompanies == null)
+            {
+                return NotFound();
+            }
             return await _context.RepairCompanies.ToListAsync();
         }
 
-        // GET: api/RepairCompanys/5
+        // GET: api/RepairCompanies/1
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairCompany>> GetRepairCompany(int id)
         {
-          if (_context.RepairCompanies == null)
-          {
-              return NotFound();
-          }
-            var repaircompany = await _context.RepairCompanies.FindAsync(id);
+            if (_context.RepairCompanies == null)
+            {
+                return NotFound();
+            }
+            var repairCompany = await _context.RepairCompanies.FindAsync(id);
 
+            if (repairCompany == null)
+            {
+                return NotFound();
+            }
+
+            return repairCompany;
+        }
+
+        // DELETE: api/RepairCompanies/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRepairCompany(int id)
+        {
+            if (_context.RepairCompanies == null)
+            {
+                return NotFound();
+            }
+            var repaircompany = await _context.RepairCompanies.FindAsync(id);
             if (repaircompany == null)
             {
                 return NotFound();
             }
 
-            return repaircompany;
+            _context.RepairCompanies.Remove(repaircompany);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
-        // PUT: api/RepairCompanys/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/RepairCompanies/1
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRepairCompany(int id, RepairCompany repaircompany)
         {
@@ -80,44 +114,11 @@ namespace ClaimApi.Controllers
             return NoContent();
         }
 
-        // POST: api/RepairCompanys
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<RepairCompany>> PostRepairCompany(RepairCompany repaircompany)
-        {
-          if (_context.RepairCompanies == null)
-          {
-              return Problem("Entity set 'RepairCompanyContext.RepairCompany'  is null.");
-          }
-            _context.RepairCompanies.Add(repaircompany);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetGarage", new { id = repaircompany.Id }, repaircompany);
-        }
-
-        // DELETE: api/Garages/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRepairCompany(int id)
-        {
-            if (_context.RepairCompanies == null)
-            {
-                return NotFound();
-            }
-            var repaircompany = await _context.RepairCompanies.FindAsync(id);
-            if (repaircompany == null)
-            {
-                return NotFound();
-            }
-
-            _context.RepairCompanies.Remove(repaircompany);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         private bool RepairCompanyExists(int id)
         {
             return (_context.RepairCompanies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
     }
 }

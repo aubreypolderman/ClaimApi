@@ -10,7 +10,6 @@ public class RepairCompanyContext: DbContext
     }
 
     public DbSet<RepairCompany> RepairCompanies { get; set; } = null!;   
-
-    // public DbSet<ClaimApi.Model.RepairCompany> RepairCompany { get; set; } = default!;
+    
 }
 

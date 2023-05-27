@@ -1,23 +1,30 @@
 ﻿using ClaimApi.Data;
+using ClaimApi.Model;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClaimApi.Model
 {
-    public class UserContext: DbContext
+    public class UserContext : DbContext
     {
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)
         {
+            // Empty constructor
         }
+      
+        public DbSet<User> Users { get; set; } 
 
-        public DbSet<User> Users { get; set; } = null!;
-
+        
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
+            if (!Users.Any())
+            {
+                modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id= 1,
+                    Id = 1,
                     Name = "Aubrey Polderman",
                     Username = "aubreypolderman",
                     Email = "aubreypolderman@zlm.nl",
@@ -29,10 +36,9 @@ namespace ClaimApi.Model
                     Latitude = "12544.025",
                     Longitude = "54880.450"
                 }
-            );
-            //DataSeeder.SeedData(DbContext UserContext);
-
-
+                );
+            }
         }
+        */
     }
 }

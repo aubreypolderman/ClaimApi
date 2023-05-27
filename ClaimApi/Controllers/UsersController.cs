@@ -35,10 +35,10 @@ namespace ClaimApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+         // if (_context.Users == null)
+         // {
+         //     return NotFound();
+         // }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
