@@ -28,4 +28,7 @@ public class User
     [JsonPropertyName("longitude")]
     public double Longitude { get; set; }
 
+    [JsonIgnore]
+    public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+
 }

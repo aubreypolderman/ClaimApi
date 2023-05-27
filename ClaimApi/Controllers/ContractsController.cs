@@ -81,20 +81,34 @@ namespace ClaimApi.Controllers
         }
 
         // POST: api/Contracts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Contract>> PostContract(Contract contract)
         {
-          if (_context.Contracts == null)
-          {
-              return Problem("Entity set 'ContractContext.Contracts'  is null.");
-          }
-            _context.Contracts.Add(contract);
-            await _context.SaveChangesAsync();
-
-            // 13-03-2023 replace with nameof
-            // return CreatedAtAction("GetContract", new { id = contract.Id }, contract);
-            return CreatedAtAction(nameof(GetContract), new { id = contract.Id }, contract);
+            try
+            {
+                // Verify that the UserId exists in the User model
+                /*
+                var user = await _context.Users.FindAsync(contract.UserId);
+                if (user == null)
+                {
+                    return BadRequest("Invalid UserId");
+                }*/
+                // Validate the user object, excluding the 'Contracts' field
+                ModelState.Remove("Contracts");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _context.Contracts.Add(contract);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetContract), new { id = contract.Id }, contract);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for troubleshooting
+                Console.WriteLine("Error occurred while creating contract:=> " + ex);
+                return StatusCode(500, "An error occurred while creating the contract");
+            }
         }
 
         // DELETE: api/Contracts/5
@@ -115,6 +129,30 @@ namespace ClaimApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("user/{userId}/contracts")]
+        public async Task<ActionResult<IEnumerable<Contract>>> GetUserContracts(int userId)
+        {
+            try
+            {
+                var user = await _context.Users.Include(u => u.Contracts).FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (user == null)
+                {
+                    return NotFound($"User with ID {userId} not found");
+                }
+
+                var contracts = user.Contracts;
+
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for troubleshooting
+                Console.WriteLine("Error occurred while retrieving contracts: " + ex);
+                return StatusCode(500, "An error occurred while retrieving the contracts");
+            }
         }
 
         private bool ContractExists(int id)

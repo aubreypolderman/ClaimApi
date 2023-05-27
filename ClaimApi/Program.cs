@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+// Update the ContractContext registration
+builder.Services.AddDbContext<ContractContext>(options =>
+    options.UseInMemoryDatabase("ClaimDB"));
 
 // 2023-03-13 Register the DbContext services with scoped lifetime
 builder.Services.AddDbContext<ContractContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
@@ -23,7 +26,7 @@ builder.Services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("Claim
 var serviceProvider = builder.Services.BuildServiceProvider();
 
 // 2023-05-26 Get an instance of UserContext
-using var context = serviceProvider.GetRequiredService<UserContext>();
+// using var context = serviceProvider.GetRequiredService<UserContext>();
 
 // 2023-05-26 Seed the data
 //DataSeeder.SeedData(context);
@@ -53,6 +56,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpLogging();
 
 app.UseHttpsRedirection();
 

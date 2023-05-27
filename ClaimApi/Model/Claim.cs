@@ -8,6 +8,7 @@ namespace ClaimApi.Model;
 
     public int Id { get; set; }
     public int? ContractId { get; set; }
+
     [JsonPropertyName("dateOfOccurence")]
         public DateTime? DateOfOccurence { get; set; }
 

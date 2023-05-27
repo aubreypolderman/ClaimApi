@@ -13,9 +13,15 @@ namespace ClaimApi.Model
             // Empty constructor
         }
       
-        public DbSet<User> Users { get; set; } 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
