@@ -19,7 +19,12 @@ namespace ClaimApi.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            base.OnModelCreating(modelBuilder);
+            // base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                         .HasMany(e => e.Contracts)
+                         .WithOne(e => e.User)
+                         .HasForeignKey(e => e.UserId)
+                         .IsRequired();
         }
 
         /*

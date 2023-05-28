@@ -16,8 +16,7 @@ namespace ClaimApi.Model
         public double AnnualPolicyPremium { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
-        [JsonIgnore]
-        public User? User { get; set; } // Navigation property
+        
+        public User User { get; set; } = null!; // Navigation property
     }
 }

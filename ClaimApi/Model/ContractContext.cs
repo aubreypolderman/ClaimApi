@@ -16,11 +16,12 @@ namespace ClaimApi.Model
         {
             
             modelBuilder.Entity<Contract>()
-                .HasOne<User>()
-                .WithMany()
-                .HasForeignKey(c => c.UserId);
+                .HasOne(e => e.User)
+                .WithMany(e => e.Contracts)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
         }
     }
 }
