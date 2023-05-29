@@ -3,11 +3,10 @@
 namespace ClaimApi.Model;
 
 
-    public class Claim
+    public class ClaimForm
     {
 
-        public int Id { get; set; }
-        public int ContractId { get; set; }
+        public int Id { get; set; }        
 
         [JsonPropertyName("dateOfOccurence")]
         public DateTime? DateOfOccurence { get; set; }
@@ -47,6 +46,7 @@ namespace ClaimApi.Model;
 
         [JsonPropertyName("longitude")]
         public double? Longitude { get; set; }
-    public Contract Contract { get; set; } // Navigation property
+        public int ContractId { get; set; }     // Foreign key to Contract table
+        public Contract Contract { get; set; } = null!;  // Navigation property  
 
 }

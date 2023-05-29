@@ -12,7 +12,7 @@ namespace ClaimApi.Model
 
         public DbSet<Contract> Contracts { get; set; } = null!;
         public DbSet<User> Users { get; set; }
-        public DbSet<Claim> Claims { get; set; }
+        public DbSet<ClaimForm> Claims { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             

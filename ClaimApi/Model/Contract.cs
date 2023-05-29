@@ -17,7 +17,7 @@ namespace ClaimApi.Model
         public DateTime UpdatedAt { get; set; }
         public int UserId { get; set; } // Foreign key to User table
         public User User { get; set; } = null!; // Navigation property        
-        public ICollection<Claim> Claims { get; set; } = new List<Claim>();
+        public ICollection<ClaimForm> ClaimForms { get; set; } = new List<ClaimForm>();
 
 
     }

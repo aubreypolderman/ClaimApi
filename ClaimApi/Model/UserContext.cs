@@ -15,7 +15,7 @@ namespace ClaimApi.Model
       
         public DbSet<User> Users { get; set; }
         public DbSet<Contract> Contracts { get; set; }
-        public DbSet<Claim> Claims { get; set; }
+        public DbSet<ClaimForm> Claims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,7 @@ namespace ClaimApi.Model
                         .IsRequired();
 
             modelBuilder.Entity<Contract>()
-                        .HasMany(e => e.Claims)
+                        .HasMany(e => e.ClaimForms)
                         .WithOne(e => e.Contract)
                         .HasForeignKey(e => e.ContractId)
                         .IsRequired();

@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 namespace ClaimApi.Model;
-public class ClaimContext: DbContext
+public class ClaimFormContext: DbContext
 {
-    public ClaimContext(DbContextOptions<ClaimContext> options)
+    public ClaimFormContext(DbContextOptions<ClaimFormContext> options)
         : base(options)
     {
     }
 
-    public DbSet<Claim> Claims { get; set; } = null!;
+    public DbSet<ClaimForm> ClaimForms { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Claim>()
+        modelBuilder.Entity<ClaimForm>()
             .HasOne(cl => cl.Contract)
-            .WithMany(c => c.Claims)
+            .WithMany(c => c.ClaimForms)
             .HasForeignKey(cl => cl.ContractId)
             .IsRequired();
 

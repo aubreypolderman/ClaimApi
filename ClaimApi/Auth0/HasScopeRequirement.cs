@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace ClaimApi.Model
+namespace ClaimApi.Auth0
 {
     public class HasScopeRequirement : IAuthorizationRequirement
     {

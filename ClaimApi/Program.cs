@@ -1,6 +1,5 @@
 // 2023-03-13 toegevoegd
 using Microsoft.EntityFrameworkCore;
-using ClaimApi.Data;
 using ClaimApi.Model;
 using Microsoft.Extensions.Hosting;
 using ClaimApi.Controllers;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using ClaimApi.Auth0;
 
 // 2023-03-13 toegevoegd
 var builder = WebApplication.CreateBuilder(args);
@@ -56,12 +56,13 @@ builder.Services.AddControllers();
 
 // 2023-03-13 Register the DbContext services with scoped lifetime
 builder.Services.AddDbContext<ContractContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
-builder.Services.AddDbContext<ClaimContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
+builder.Services.AddDbContext<ClaimFormContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
 builder.Services.AddDbContext<RepairCompanyContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
 builder.Services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
 builder.Services.AddScoped<IRepairCompanyRepository, RepairCompanyRepository>();
+builder.Services.AddScoped<IClaimFormRepository, ClaimFormRepository>();
 
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
