@@ -9,5 +9,6 @@ public interface IUserRepository
     Task<User> CreateUser(User user);
     Task<bool> UpdateUser(User user);
     Task<bool> DeleteUser(int id);
+    Task<User> GetUserByEmail(string email);
 
 }
