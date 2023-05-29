@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ClaimApi.Model;
+using ClaimApi.Repository;
 
 namespace ClaimApi.Controllers
 {
@@ -13,112 +14,58 @@ namespace ClaimApi.Controllers
     [ApiController]
     public class RepairCompaniesController : ControllerBase
     {
-        private readonly RepairCompanyContext _context;
+        private readonly IRepairCompanyRepository _repairCompanyRepository;
 
-        public RepairCompaniesController(RepairCompanyContext context)
+        public RepairCompaniesController(IRepairCompanyRepository repairCompanyRepository)
         {
-            _context = context;
+            _repairCompanyRepository = repairCompanyRepository;
         }
 
-        // POST: api/RepairCompanies
-        [HttpPost]
-        public async Task<ActionResult<RepairCompany>> PostRepairCompany(RepairCompany repairCompany)
-        {
-            if (_context.RepairCompanies == null)
-            {
-                return Problem("Entity set 'RepairCompanyContext.RepairCompany' is null.");
-            }
-            _context.RepairCompanies.Add(repairCompany);
-            await _context.SaveChangesAsync();
-
-            // 13-03-2023 replace with nameof
-            return CreatedAtAction(nameof(GetRepairCompany), new { id = repairCompany.Id }, repairCompany);
-        }
-
-        // GET: api/RepairCompanies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompanies()
         {
-            if (_context.RepairCompanies == null)
-            {
-                return NotFound();
-            }
-            return await _context.RepairCompanies.ToListAsync();
+            var repaircompanies = await _repairCompanyRepository.GetAllRepairCompanies();
+            return Ok(repaircompanies);
         }
 
-        // GET: api/RepairCompanies/1
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairCompany>> GetRepairCompany(int id)
         {
-            if (_context.RepairCompanies == null)
-            {
-                return NotFound();
-            }
-            var repairCompany = await _context.RepairCompanies.FindAsync(id);
+            var repairCompany = await _repairCompanyRepository.GetRepairCompany(id);
+            if (repairCompany is null)
+                return NotFound("RepairCompany not found.");
 
-            if (repairCompany == null)
-            {
-                return NotFound();
-            }
-
-            return repairCompany;
+            return Ok(repairCompany);
         }
 
-        // DELETE: api/RepairCompanies/1
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRepairCompany(int id)
+        [HttpPost]
+        public async Task<ActionResult<RepairCompany>> CreateRepairCompany(RepairCompany repairCompany)
         {
-            if (_context.RepairCompanies == null)
-            {
-                return NotFound();
-            }
-            var repaircompany = await _context.RepairCompanies.FindAsync(id);
-            if (repaircompany == null)
-            {
-                return NotFound();
-            }
-
-            _context.RepairCompanies.Remove(repaircompany);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var createdRepairCompany = await _repairCompanyRepository.CreateRepairCompany(repairCompany);
+            return CreatedAtAction(nameof(CreateRepairCompany), new { id = createdRepairCompany.Id }, createdRepairCompany);
         }
 
-        // PUT: api/RepairCompanies/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRepairCompany(int id, RepairCompany repaircompany)
+        public async Task<IActionResult> UpdateRepairCompany(int id, RepairCompany repairCompany)
         {
-            if (id != repaircompany.Id)
-            {
+            if (id != repairCompany.Id)
                 return BadRequest();
-            }
 
-            _context.Entry(repaircompany).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RepairCompanyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var result = await _repairCompanyRepository.UpdateRepairCompany(repairCompany);
+            if (!result)
+                return NotFound();
 
             return NoContent();
         }
 
-        private bool RepairCompanyExists(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRepairCompanyt(int id)
         {
-            return (_context.RepairCompanies?.Any(e => e.Id == id)).GetValueOrDefault();
+            var result = await _repairCompanyRepository.DeleteRepairCompany(id);
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
-
-
     }
 }

@@ -4,8 +4,7 @@ namespace ClaimApi.Model
 {
     public class Contract
     {
-        public int Id { get; set; }
-        public int UserId { get; set; } // Foreign key to User table
+        public int Id { get; set; }        
         public string Product { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
@@ -16,7 +15,10 @@ namespace ClaimApi.Model
         public double AnnualPolicyPremium { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        
-        public User User { get; set; } = null!; // Navigation property
+        public int UserId { get; set; } // Foreign key to User table
+        public User User { get; set; } = null!; // Navigation property        
+        public ICollection<Claim> Claims { get; set; } = new List<Claim>();
+
+
     }
 }

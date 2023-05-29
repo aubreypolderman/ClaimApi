@@ -6,10 +6,10 @@ namespace ClaimApi.Model;
     public class Claim
     {
 
-    public int Id { get; set; }
-    public int? ContractId { get; set; }
+        public int Id { get; set; }
+        public int ContractId { get; set; }
 
-    [JsonPropertyName("dateOfOccurence")]
+        [JsonPropertyName("dateOfOccurence")]
         public DateTime? DateOfOccurence { get; set; }
 
         [JsonPropertyName("QCauseOfDamage")]
@@ -30,43 +30,23 @@ namespace ClaimApi.Model;
         [JsonPropertyName("image2")]
         public string? Image2 { get; set; }
 
-        [JsonPropertyName("images")]
-        public List<string?> Images { get; set; }
+        [JsonPropertyName("street")]
+        public string? Street { get; set; }
 
+        [JsonPropertyName("suite")]
+        public string? Suite { get; set; }
 
-        [JsonPropertyName("address")]
-        public Address? AccidentAddress { get; set; }
+        [JsonPropertyName("city")]
+        public string? City { get; set; }
 
-        public Claim()
-        {
-            AccidentAddress = new Address();        // Initialize AccidentAddress object
-        }
+        [JsonPropertyName("zipcode")]
+        public string? Zipcode { get; set; }
 
+        [JsonPropertyName("latitude")]
+        public double? Latitude { get; set; }
 
-        public class Address
-        {
-            [JsonPropertyName("street")]
-            public string? Street { get; set; }
+        [JsonPropertyName("longitude")]
+        public double? Longitude { get; set; }
+    public Contract Contract { get; set; } // Navigation property
 
-            [JsonPropertyName("suite")]
-            public string? Suite { get; set; }
-
-            [JsonPropertyName("city")]
-            public string? City { get; set; }
-
-            [JsonPropertyName("zipcode")]
-            public string? Zipcode { get; set; }
-
-            [JsonPropertyName("geo")]
-            public AccidentGeo? Geo { get; set; }
-        }
-
-        public class AccidentGeo
-        {
-            [JsonPropertyName("latitude")]
-            public double? Latitude { get; set; }
-
-            [JsonPropertyName("longitude")]
-            public double? Longitude { get; set; }
-        }
-    }
+}

@@ -30,5 +30,5 @@ public class User
 
     [JsonIgnore]
     public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
-
+    
 }

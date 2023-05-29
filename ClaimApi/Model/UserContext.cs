@@ -15,41 +15,21 @@ namespace ClaimApi.Model
       
         public DbSet<User> Users { get; set; }
         public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Claim> Claims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            // base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>()
-                         .HasMany(e => e.Contracts)
-                         .WithOne(e => e.User)
-                         .HasForeignKey(e => e.UserId)
-                         .IsRequired();
-        }
+                        .HasMany(e => e.Contracts)
+                        .WithOne(e => e.User)
+                        .HasForeignKey(e => e.UserId)
+                        .IsRequired();
 
-        /*
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            if (!Users.Any())
-            {
-                modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    Name = "Aubrey Polderman",
-                    Username = "aubreypolderman",
-                    Email = "aubreypolderman@zlm.nl",
-                    Phone = "123456789",
-                    Street = "Cirkel",
-                    HouseNumber = "63",
-                    City = "Vlissingen",
-                    Zipcode = "4384DS",
-                    Latitude = "12544.025",
-                    Longitude = "54880.450"
-                }
-                );
-            }
-        }
-        */
+            modelBuilder.Entity<Contract>()
+                        .HasMany(e => e.Claims)
+                        .WithOne(e => e.Contract)
+                        .HasForeignKey(e => e.ContractId)
+                        .IsRequired();
+        }       
     }
 }

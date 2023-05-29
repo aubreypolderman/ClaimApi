@@ -12,6 +12,7 @@ namespace ClaimApi.Model
 
         public DbSet<Contract> Contracts { get; set; } = null!;
         public DbSet<User> Users { get; set; }
+        public DbSet<Claim> Claims { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -21,7 +22,7 @@ namespace ClaimApi.Model
                 .HasForeignKey(e => e.UserId)
                 .IsRequired();
 
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

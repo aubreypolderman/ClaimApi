@@ -80,6 +80,7 @@ namespace ClaimApi.Controllers
             return NoContent();
         }
 
+        
         // POST: api/Claims
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -94,6 +95,7 @@ namespace ClaimApi.Controllers
 
             return CreatedAtAction("GetClaim", new { id = claim.Id }, claim);
         }
+        
 
         // DELETE: api/Claims/5
         [HttpDelete("{id}")]

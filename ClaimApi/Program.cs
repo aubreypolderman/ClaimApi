@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using ClaimApi.Data;
 using ClaimApi.Model;
 using Microsoft.Extensions.Hosting;
+using ClaimApi.Controllers;
+using ClaimApi;
+using ClaimApi.Repository;
 
 // 2023-03-13 toegevoegd
 
@@ -18,6 +21,10 @@ builder.Services.AddDbContext<ContractContext>(opt => opt.UseInMemoryDatabase("C
 builder.Services.AddDbContext<ClaimContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
 builder.Services.AddDbContext<RepairCompanyContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
 builder.Services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("ClaimDB"));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IContractRepository, ContractRepository>();
+builder.Services.AddScoped<IRepairCompanyRepository, RepairCompanyRepository>();
+
 
 // Register the DataSeeder as a scoped service
 // builder.Services.AddScoped<IHostedService, DataSeeder>();
@@ -64,5 +71,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.MapUserEndpoints();
 
 app.Run();
