@@ -22,20 +22,49 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contract>>> GetContracts()
+        public async Task<ActionResult<IEnumerable<ContractDto>>> GetContracts()
         {
             var contracts = await _contractRepository.GetAllContracts();
-            return Ok(contracts);
+            
+            // Map the Contract models to ContractDtos
+            var contractDtos = contracts.Select(c => new ContractDto
+            {
+                Id = c.Id,
+                Product = c.Product,
+                Make = c.Make,
+                Model = c.Model,
+                LicensePlate = c.LicensePlate,
+                DamageFreeYears = c.DamageFreeYears,
+                StartingDate = c.StartingDate,
+                EndDate = c.EndDate,
+                AnnualPolicyPremium = c.AnnualPolicyPremium
+            });
+
+            return Ok(contractDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contract>> GetContract(int id)
+        public async Task<ActionResult<ContractDto>> GetContract(int id)
         {
             var contract = await _contractRepository.GetContract(id);
             if (contract is null)
                 return NotFound("Contract not found.");
+            
+            // Map the Contract model to a ContractDto
+            var contractDto = new ContractDto
+            {
+                Id = contract.Id,
+                Product = contract.Product,
+                Make = contract.Make,
+                Model = contract.Model,
+                LicensePlate = contract.LicensePlate,
+                DamageFreeYears = contract.DamageFreeYears,
+                StartingDate = contract.StartingDate,
+                EndDate = contract.EndDate,
+                AnnualPolicyPremium = contract.AnnualPolicyPremium
+            };
 
-            return Ok(contract);
+            return Ok(contractDto);
         }
 
         [HttpPost]
