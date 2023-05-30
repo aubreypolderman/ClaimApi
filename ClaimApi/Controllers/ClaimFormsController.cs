@@ -17,10 +17,12 @@ namespace ClaimApi.Controllers
     public class ClaimFormsController : ControllerBase
     {
         private readonly IClaimFormRepository _claimFormRepository;
+        private readonly IContractRepository _contractRepository;
 
-        public ClaimFormsController(IClaimFormRepository claimFormRepository)
+        public ClaimFormsController(IClaimFormRepository claimFormRepository, IContractRepository contractRepository)
         {
             _claimFormRepository = claimFormRepository;
+            _contractRepository = contractRepository;
         }
 
         [HttpGet]
@@ -66,6 +68,14 @@ namespace ClaimApi.Controllers
             Debug.WriteLine("[..............] [ClaimFormController] [CreateClaimForm] Make claim for contract with id " + claimForm.ContractId);
             Debug.WriteLine("[..............] [ClaimFormController] [CreateClaimForm] Make claim for contract with id " + claimForm.Contract.Id);
             claimForm.ContractId = claimForm.Contract.Id; // Set the ContractId based on the request's userId value
+
+            // Get the Contract from the ContractRepository
+            var contract = await _contractRepository.GetContract(claimForm.ContractId);
+            if (contract == null)
+            {
+                return BadRequest("Contract does not exist");
+            }
+
             claimForm.Contract = null; // Set the Contract property to null since it's not needed            
 
             var createdClaimForm = await _claimFormRepository.CreateClaimForm(claimForm);

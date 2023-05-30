@@ -11,6 +11,8 @@
         public DateTime StartingDate { get; set; }
         public DateTime EndDate { get; set; }
         public double AnnualPolicyPremium { get; set; }
+        public int UserId { get; set; } // Foreign key to User table
+        public User User { get; set; } = null!; // Navigation property 
 
 
     }

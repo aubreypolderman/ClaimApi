@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ClaimApi.Model;
 using ClaimApi.Repository;
+using System.Diagnostics;
 
 namespace ClaimApi.Controllers
 {
@@ -15,10 +16,12 @@ namespace ClaimApi.Controllers
     public class ContractsController : ControllerBase
     {
         private readonly IContractRepository _contractRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ContractsController(IContractRepository contractRepository)
+        public ContractsController(IContractRepository contractRepository, IUserRepository userRepository)
         {
             _contractRepository = contractRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -70,8 +73,16 @@ namespace ClaimApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Contract>> CreateContract(Contract contract)
         {
+            Debug.WriteLine("[..............] [ContractsController] [CreateContract] Make contract for user with id " + contract.UserId);
             contract.UserId = contract.User.Id; // Set the UserId based on the request's userId value
             contract.User = null; // Set the User property to null since it's not needed
+            
+            // Get the User from the UserRepository
+            var user = await _userRepository.GetUser(contract.UserId);
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
 
             var createdContract = await _contractRepository.CreateContract(contract);
             return CreatedAtAction(nameof(CreateContract), new { id = createdContract.Id }, createdContract);            

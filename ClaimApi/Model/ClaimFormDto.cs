@@ -46,5 +46,5 @@ namespace ClaimApi.Model;
     [JsonPropertyName("longitude")]
     public double? Longitude { get; set; }
     public int ContractId { get; set; }     // Foreign key to Contract table   
-
+    public Contract Contract { get; set; } = null!;
 }
