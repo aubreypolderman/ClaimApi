@@ -28,20 +28,39 @@ namespace ClaimApi.Controllers
         public async Task<ActionResult<IEnumerable<ContractDto>>> GetContracts()
         {
             var contracts = await _contractRepository.GetAllContracts();
-            
-            // Map the Contract models to ContractDtos
-            var contractDtos = contracts.Select(c => new ContractDto
+
+            // Create a list to store ContractDto objects
+            var contractDtos = new List<ContractDto>();
+
+            foreach (var contract in contracts)
             {
-                Id = c.Id,
-                Product = c.Product,
-                Make = c.Make,
-                Model = c.Model,
-                LicensePlate = c.LicensePlate,
-                DamageFreeYears = c.DamageFreeYears,
-                StartingDate = c.StartingDate,
-                EndDate = c.EndDate,
-                AnnualPolicyPremium = c.AnnualPolicyPremium
-            });
+                // Get the User entity associated with the contract
+                var user = await _userRepository.GetUser(contract.UserId);
+                if (user is null)
+                {
+                    // Skip this contract if the associated user is not found
+                    continue;
+                }
+
+                // Map the Contract model to a ContractDto
+                var contractDto = new ContractDto
+                {
+                    Id = contract.Id,
+                    Product = contract.Product,
+                    Make = contract.Make,
+                    Model = contract.Model,
+                    LicensePlate = contract.LicensePlate,
+                    DamageFreeYears = contract.DamageFreeYears,
+                    StartingDate = contract.StartingDate,
+                    EndDate = contract.EndDate,
+                    AnnualPolicyPremium = contract.AnnualPolicyPremium,
+                    UserId = contract.UserId,
+                    User = user
+                };
+
+                // Add the ContractDto to the list
+                contractDtos.Add(contractDto);
+            };
 
             return Ok(contractDtos);
         }
@@ -52,7 +71,12 @@ namespace ClaimApi.Controllers
             var contract = await _contractRepository.GetContract(id);
             if (contract is null)
                 return NotFound("Contract not found.");
-            
+
+            // Get the User entity associated with the contract
+            var user = await _userRepository.GetUser(contract.UserId);
+            if (user is null)
+                return NotFound("User not found.");
+
             // Map the Contract model to a ContractDto
             var contractDto = new ContractDto
             {
@@ -64,7 +88,9 @@ namespace ClaimApi.Controllers
                 DamageFreeYears = contract.DamageFreeYears,
                 StartingDate = contract.StartingDate,
                 EndDate = contract.EndDate,
-                AnnualPolicyPremium = contract.AnnualPolicyPremium
+                AnnualPolicyPremium = contract.AnnualPolicyPremium,
+                UserId = contract.UserId,
+                User = user
             };
 
             return Ok(contractDto);
