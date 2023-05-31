@@ -9,6 +9,7 @@ using ClaimApi.Model;
 using ClaimApi.Repository;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace ClaimApi.Controllers
 {
@@ -121,6 +122,44 @@ namespace ClaimApi.Controllers
                 return NotFound();
 
             return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClaimFormDto>> GetClaimForm(int id)
+        {
+            var claimForm = await _claimFormRepository.GetClaimForm2(id);
+            if (claimForm is null)
+                return NotFound("ClaimForm not found.");
+
+            // Get the Contract associated with the ClaimForm
+            var contract = await _contractRepository.GetContract(claimForm.ContractId);
+            if (contract == null)
+            {
+                // Skip this ClaimForm if the associated Contract is not found
+                return NotFound("Contract not found.");
+            }
+            // Map the Contract model to a ContractDto
+            var claimFormDto = new ClaimFormDto
+            {
+                Id = claimForm.Id,
+                DateOfOccurence = claimForm.DateOfOccurence,
+                QCauseOfDamage = claimForm.QCauseOfDamage,
+                QWhatHappened = claimForm.QWhatHappened,
+                QWhereDamaged = claimForm.QWhereDamaged,
+                QWhatIsDamaged = claimForm.QWhatIsDamaged,
+                Image1 = claimForm.Image1,
+                Image2 = claimForm.Image2,
+                Street = claimForm.Street,
+                Suite = claimForm.Suite,
+                City = claimForm.City,
+                Zipcode = claimForm.Zipcode,
+                Latitude = claimForm.Latitude,
+                Longitude = claimForm.Longitude,
+                ContractId = claimForm.ContractId,
+                Contract = contract
+            };
+
+            return Ok(claimFormDto);
         }
 
     }

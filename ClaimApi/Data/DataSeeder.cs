@@ -13,7 +13,7 @@ namespace ClaimApi.Data;
 public class DataSeeder
 {
 
-    public static void SeedData(UserContext userContext, RepairCompanyContext repairCompanyContext)
+    public static void SeedData(UserContext userContext, RepairCompanyContext repairCompanyContext, ContractContext contractContext, ClaimFormContext claimFormContext)
     {
         // Check if data already exists
         if (!userContext.Users.Any())
@@ -62,10 +62,10 @@ public class DataSeeder
                     Longitude = 3.5559567820729203
                 },
                                  
-        };
-        Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] user aangemaakt");
-        userContext.Users.AddRange(users);
-        userContext.SaveChanges();
+            };
+            Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] user added");
+            userContext.Users.AddRange(users);
+            userContext.SaveChanges();
         }
 
         // Check if data already exists
@@ -153,10 +153,76 @@ public class DataSeeder
                     Phone = "0113-238555",
                     Website = "www.tiggelen.nl"
                 },
-        };
-            Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] repaircompanies aangemaakt");
+            };
+            Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] repaircompanies added");
             repairCompanyContext.RepairCompanies.AddRange(repairCompanies);
             repairCompanyContext.SaveChanges();
+        }
+        
+        // Check if data already exists
+        if (!contractContext.Contracts.Any())
+        {
+
+            // Seed the data
+            var contracts = new List<Contract>
+            {
+                new Contract
+                {
+                    Product = "Personenauto",
+                    Make = "KIA",
+                    Model = "Ceed",
+                    LicensePlate = "HF067X",
+                    DamageFreeYears = 15,
+                    StartingDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    AnnualPolicyPremium = 150.99,
+                    UserId = 1
+                },
+                new Contract
+                {
+                    Product = "Personenauto",
+                    Make = "Lamborghini",
+                    Model = "Diablo",
+                    LicensePlate = "R789RF",
+                    DamageFreeYears = 15,
+                    StartingDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    AnnualPolicyPremium = 750.49,
+                    UserId = 1
+                },
+            };
+            Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] contracts added");
+            contractContext.Contracts.AddRange(contracts);
+            contractContext.SaveChanges();
+        }
+
+        // Check if data already exists
+        if (!claimFormContext.ClaimForms.Any())
+        {
+
+            // Seed the data
+            var claimForms = new List<ClaimForm>
+            {
+                new ClaimForm
+                {
+                    ContractId = 2,
+                    DateOfOccurence = DateTime.Now,
+                    QCauseOfDamage = "Cause of damage",
+                    QWhereDamaged = "My front rearwindow",
+                    QWhatIsDamaged = "My bumper",
+                    Image1 = "image1.jpg",
+                    Image2 = "image2.jpg",
+                    Street = "Hoofdweg",
+                    Suite = "2",
+                    City = "Rotterdam",
+                    Zipcode = "3067GK",
+                    Latitude = 51.95059777234066, 
+                    Longitude = 4.562103388325112
+                },
+            };
+            Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] claimforms added");
+            claimFormContext.ClaimForms.AddRange(claimForms);
+            claimFormContext.SaveChanges();
         }
     }
 }

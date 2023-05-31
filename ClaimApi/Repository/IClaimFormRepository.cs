@@ -5,6 +5,8 @@ namespace ClaimApi.Repository;
 public interface IClaimFormRepository
 {
     Task<IEnumerable<ClaimForm>> GetAllClaimForms();
+    Task<ClaimForm> GetClaimForm(int id);
+    Task<ClaimForm> GetClaimForm2(int id);
     Task<IEnumerable<ClaimForm>> GetClaimFormsByUserId(int userId);
     Task<ClaimForm> CreateClaimForm(ClaimForm claimForm);
     Task<bool> UpdateClaimForm(ClaimForm claimForm);

@@ -47,4 +47,15 @@ public class ClaimFormRepository : IClaimFormRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<ClaimForm> GetClaimForm2(int id)
+    {
+        return await _context.ClaimForms.FindAsync(id);
+    }
+
+    public async Task<ClaimForm> GetClaimForm(int claimId)
+    {
+        return await _context.Set<ClaimForm>()
+            .FirstOrDefaultAsync(c => c.Id == claimId);
+    }
 }

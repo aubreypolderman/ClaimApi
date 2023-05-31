@@ -97,7 +97,9 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var userContext = serviceScope.ServiceProvider.GetRequiredService<UserContext>();
     var repairCompanyContext = serviceScope.ServiceProvider.GetRequiredService<RepairCompanyContext>();
-    DataSeeder.SeedData(userContext, repairCompanyContext);
+    var contractContext = serviceScope.ServiceProvider.GetRequiredService<ContractContext>();
+    var claimFormContext = serviceScope.ServiceProvider.GetRequiredService<ClaimFormContext>();
+    DataSeeder.SeedData(userContext, repairCompanyContext, contractContext, claimFormContext);
     Debug.WriteLine(DateTime.Now + "[--------] [program.cs] na uitvoer van dataSeeder");
 }
 
