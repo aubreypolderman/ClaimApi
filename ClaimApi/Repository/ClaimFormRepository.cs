@@ -48,11 +48,6 @@ public class ClaimFormRepository : IClaimFormRepository
         return true;
     }
 
-    public async Task<ClaimForm> GetClaimForm2(int id)
-    {
-        return await _context.ClaimForms.FindAsync(id);
-    }
-
     public async Task<ClaimForm> GetClaimForm(int claimId)
     {
         return await _context.Set<ClaimForm>()

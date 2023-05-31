@@ -127,7 +127,7 @@ namespace ClaimApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ClaimFormDto>> GetClaimForm(int id)
         {
-            var claimForm = await _claimFormRepository.GetClaimForm2(id);
+            var claimForm = await _claimFormRepository.GetClaimForm(id);
             if (claimForm is null)
                 return NotFound("ClaimForm not found.");
 
