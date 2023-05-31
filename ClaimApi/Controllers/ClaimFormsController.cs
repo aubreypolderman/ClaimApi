@@ -28,32 +28,49 @@ namespace ClaimApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaims()
         {
-            Debug.WriteLine("[..............] [ClaimFormController] [GetClaims] Before invoke of repository ");
             var claimForms = await _claimFormRepository.GetAllClaimForms();
-            Debug.WriteLine("[..............] [ClaimFormController] [GetClaims] After invoke of repository " + claimForms);
 
-            // Map the claimForm models to ClaimFormDtos
-            var claimFormDtos = claimForms.Select(c => new ClaimFormDto
+            // Create a list to store ClaimFormDto objects
+            var claimFormDtos = new List<ClaimFormDto>();
+
+            foreach (var claimForm in claimForms)
             {
-                Id = c.Id,
-                DateOfOccurence = c.DateOfOccurence,
-                QCauseOfDamage = c.QCauseOfDamage,
-                QWhatHappened = c.QWhatHappened,
-                QWhereDamaged = c.QWhereDamaged,
-                QWhatIsDamaged = c.QWhatIsDamaged,
-                Image1 = c.Image1,
-                Image2 = c.Image2,
-                Street = c.Street,
-                Suite = c.Suite,
-                City = c.City,
-                Zipcode = c.Zipcode,
-                Latitude = c.Latitude,
-                Longitude = c.Longitude,
-                ContractId = c.ContractId
-            });
+                // Get the Contract associated with the ClaimForm
+                var contract = await _contractRepository.GetContract(claimForm.ContractId);
+                if (contract == null)
+                {
+                    // Skip this ClaimForm if the associated Contract is not found
+                    continue;
+                }
+
+                // Map the ClaimForm model to a ClaimFormDto
+                var claimFormDto = new ClaimFormDto
+                {
+                    Id = claimForm.Id,
+                    DateOfOccurence = claimForm.DateOfOccurence,
+                    QCauseOfDamage = claimForm.QCauseOfDamage,
+                    QWhatHappened = claimForm.QWhatHappened,
+                    QWhereDamaged = claimForm.QWhereDamaged,
+                    QWhatIsDamaged = claimForm.QWhatIsDamaged,
+                    Image1 = claimForm.Image1,
+                    Image2 = claimForm.Image2,
+                    Street = claimForm.Street,
+                    Suite = claimForm.Suite,
+                    City = claimForm.City,
+                    Zipcode = claimForm.Zipcode,
+                    Latitude = claimForm.Latitude,
+                    Longitude = claimForm.Longitude,
+                    ContractId = claimForm.ContractId,
+                    Contract = contract
+                };
+
+                // Add the ClaimFormDto to the list
+                claimFormDtos.Add(claimFormDto);
+            }
 
             return Ok(claimFormDtos);
-        }      
+        }
+
 
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaimsByUserId(int userId)

@@ -10,7 +10,7 @@ namespace ClaimApi.Model
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)
         {
-            // Empty constructor
+            // Empty constructor            
         }
       
         public DbSet<User> Users { get; set; }

@@ -10,6 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using ClaimApi.Auth0;
+using ClaimApi.Data;
+using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 // 2023-03-13 toegevoegd
 var builder = WebApplication.CreateBuilder(args);
@@ -89,4 +92,13 @@ app.UseAuthorization();
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var userContext = serviceScope.ServiceProvider.GetRequiredService<UserContext>();
+    var repairCompanyContext = serviceScope.ServiceProvider.GetRequiredService<RepairCompanyContext>();
+    DataSeeder.SeedData(userContext, repairCompanyContext);
+    Debug.WriteLine(DateTime.Now + "[--------] [program.cs] na uitvoer van dataSeeder");
+}
+
 app.Run();
