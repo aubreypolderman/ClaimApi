@@ -139,10 +139,44 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Contract>>> GetContractsByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<ContractDto>>> GetContractsByUserId(int userId)
         {
             var contracts = await _contractRepository.GetContractsByUserId(userId);
-            return Ok(contracts);
+            // Create a list to store ContractDto objects
+            var contractDtos = new List<ContractDto>();
+
+            foreach (var contract in contracts)
+            {
+                // Get the User entity associated with the contract
+                var user = await _userRepository.GetUser(contract.UserId);
+                if (user is null)
+                {
+                    // Skip this contract if the associated user is not found
+                    continue;
+                }
+
+                // Map the Contract model to a ContractDto
+                var contractDto = new ContractDto
+                {
+                    Id = contract.Id,
+                    Product = contract.Product,
+                    Make = contract.Make,
+                    Model = contract.Model,
+                    LicensePlate = contract.LicensePlate,
+                    DamageFreeYears = contract.DamageFreeYears,
+                    StartingDate = contract.StartingDate,
+                    EndDate = contract.EndDate,
+                    AnnualPolicyPremium = contract.AnnualPolicyPremium,
+                    UserId = contract.UserId,
+                    User = user
+                };
+
+                // Add the ContractDto to the list
+                contractDtos.Add(contractDto);
+            };
+
+            return Ok(contractDtos);
+            //return Ok(contracts);
         }
 
     }

@@ -24,6 +24,7 @@ public class DataSeeder
             {
                 new User
                 {
+                    Id = 1,
                     Name = "Aubrey Polderman",
                     Username = "aubreypolderman@gmail.com",
                     Email = "aubreypolderman@gmail.com",
@@ -37,6 +38,7 @@ public class DataSeeder
                 },
                 new User
                 {
+                    Id = 2,
                     Name = "Captain America",
                     Username = "captainamerica@outlook.com",
                     Email = "captainamerica@outlook.com",
@@ -50,6 +52,7 @@ public class DataSeeder
                 },
                 new User
                 {
+                    Id = 3,
                     Name = "Pete Mitchell",
                     Username = "petemitchell@outlook.com",
                     Email = "petemitchell@outlook.com",
@@ -77,6 +80,7 @@ public class DataSeeder
             {
                 new RepairCompany
                 {
+                    Id = 1,
                     Name = "Van den Berg autoschade",
                     Email = "info@vdberg.nl",
                     Street = "Beijerselaan",
@@ -90,6 +94,7 @@ public class DataSeeder
                 },
                 new RepairCompany
                 {
+                    Id = 2,
                     Name = "VanMossel autoschade",
                     Email = "info@mossel.nl",
                     Street = "Slaghekstraat",
@@ -103,6 +108,7 @@ public class DataSeeder
                 },
                 new RepairCompany
                 {
+                    Id = 3,
                     Name = "Borg Schadenet",
                     Email = "info@borg.nl",
                     Street = "Piersonstraat",
@@ -116,6 +122,7 @@ public class DataSeeder
                 },
                 new RepairCompany
                 {
+                    Id = 4,
                     Name = "Duinkerk Schadenet",
                     Email = "info@duinkerk.nl",
                     Street = "Ambachtsweg",
@@ -129,6 +136,7 @@ public class DataSeeder
                 },
                 new RepairCompany
                 {
+                    Id = 5,
                     Name = "Verhoeven autoschade",
                     Email = "info@verhoeven.nl",
                     Street = "Timorstraat",
@@ -142,6 +150,7 @@ public class DataSeeder
                 },
                 new RepairCompany
                 {
+                    Id = 6,
                     Name = "Tiggelen autoschade",
                     Email = "info@tiggelen.nl",
                     Street = "Wisselaar",
@@ -168,6 +177,7 @@ public class DataSeeder
             {
                 new Contract
                 {
+                    Id = 1,
                     Product = "Personenauto",
                     Make = "KIA",
                     Model = "Ceed",
@@ -180,6 +190,7 @@ public class DataSeeder
                 },
                 new Contract
                 {
+                    Id = 2,
                     Product = "Personenauto",
                     Make = "Lamborghini",
                     Model = "Diablo",
@@ -205,19 +216,20 @@ public class DataSeeder
             {
                 new ClaimForm
                 {
-                    ContractId = 2,
+                    Id = 1,                    
                     DateOfOccurence = DateTime.Now,
-                    QCauseOfDamage = "Cause of damage",
-                    QWhereDamaged = "My front rearwindow",
-                    QWhatIsDamaged = "My bumper",
-                    Image1 = "image1.jpg",
-                    Image2 = "image2.jpg",
+                    QCauseOfDamage = "Aanrijding met een vast object",
+                    QWhereDamaged = "Somewhere at night",
+                    QWhatIsDamaged = "The doors en trunk of my lamborghini are damaged. And the windshields are broken",
+                    Image1 = null,
+                    Image2 = null,
                     Street = "Hoofdweg",
                     Suite = "2",
                     City = "Rotterdam",
                     Zipcode = "3067GK",
                     Latitude = 51.95059777234066, 
-                    Longitude = 4.562103388325112
+                    Longitude = 4.562103388325112,
+                    ContractId = 1
                 },
             };
             Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] claimforms added");

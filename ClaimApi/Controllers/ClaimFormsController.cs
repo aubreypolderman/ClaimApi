@@ -76,8 +76,47 @@ namespace ClaimApi.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaimsByUserId(int userId)
         {
-            var claims = await _claimFormRepository.GetClaimFormsByUserId(userId);
-            return Ok(claims);
+            var claimForms = await _claimFormRepository.GetClaimFormsByUserId(userId);
+            // Create a list to store ClaimFormDto objects
+            var claimFormDtos = new List<ClaimFormDto>();
+
+            foreach (var claimForm in claimForms)
+            {
+                // Get the Contract associated with the ClaimForm
+                var contract = await _contractRepository.GetContract(claimForm.ContractId);
+                if (contract == null)
+                {
+                    // Skip this ClaimForm if the associated Contract is not found
+                    continue;
+                }
+
+                // Map the ClaimForm model to a ClaimFormDto
+                var claimFormDto = new ClaimFormDto
+                {
+                    Id = claimForm.Id,
+                    DateOfOccurence = claimForm.DateOfOccurence,
+                    QCauseOfDamage = claimForm.QCauseOfDamage,
+                    QWhatHappened = claimForm.QWhatHappened,
+                    QWhereDamaged = claimForm.QWhereDamaged,
+                    QWhatIsDamaged = claimForm.QWhatIsDamaged,
+                    Image1 = claimForm.Image1,
+                    Image2 = claimForm.Image2,
+                    Street = claimForm.Street,
+                    Suite = claimForm.Suite,
+                    City = claimForm.City,
+                    Zipcode = claimForm.Zipcode,
+                    Latitude = claimForm.Latitude,
+                    Longitude = claimForm.Longitude,
+                    ContractId = claimForm.ContractId,
+                    Contract = contract
+                };
+
+                // Add the ClaimFormDto to the list
+                claimFormDtos.Add(claimFormDto);
+            }
+
+            return Ok(claimFormDtos);
+            //return Ok(claims);
         }
 
         [HttpPost]
