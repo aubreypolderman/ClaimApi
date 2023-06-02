@@ -26,8 +26,8 @@ public class DataSeeder
                 {
                     Id = 1,
                     Name = "Aubrey Polderman",
-                    Username = "aubreypolderman@gmail.com",
-                    Email = "aubreypolderman@gmail.com",
+                    Username = "Aubrey Polderman",
+                    Email = "Aubrey Polderman",
                     Phone = "06-12345678",
                     Street = "Cirkel",
                     HouseNumber = "63",
@@ -200,6 +200,19 @@ public class DataSeeder
                     EndDate = DateTime.Now,
                     AnnualPolicyPremium = 750.49,
                     UserId = 1
+                },
+                new Contract
+                {
+                    Id = 3,
+                    Product = "Personenauto",
+                    Make = "Audi",
+                    Model = "Q6",
+                    LicensePlate = "T988RX",
+                    DamageFreeYears = 11,
+                    StartingDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    AnnualPolicyPremium = 599.49,
+                    UserId = 2
                 },
             };
             Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] contracts added");
