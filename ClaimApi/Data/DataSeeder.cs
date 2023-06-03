@@ -183,8 +183,8 @@ public class DataSeeder
                     Model = "Ceed",
                     LicensePlate = "HF067X",
                     DamageFreeYears = 15,
-                    StartingDate = DateTime.Now,
-                    EndDate = DateTime.Now,
+                    StartingDate = new DateTime(2023, 6, 1, 00, 00, 00),
+                    EndDate = new DateTime(2023, 12, 31, 00, 00, 00),
                     AnnualPolicyPremium = 150.99,
                     UserId = 1
                 },
@@ -196,8 +196,8 @@ public class DataSeeder
                     Model = "Diablo",
                     LicensePlate = "R789RF",
                     DamageFreeYears = 15,
-                    StartingDate = DateTime.Now,
-                    EndDate = DateTime.Now,
+                    StartingDate = new DateTime(2023, 6, 1, 00, 00, 00),
+                    EndDate = new DateTime(2023, 12, 31, 00, 00, 00),
                     AnnualPolicyPremium = 750.49,
                     UserId = 1
                 },
@@ -209,11 +209,24 @@ public class DataSeeder
                     Model = "Q6",
                     LicensePlate = "T988RX",
                     DamageFreeYears = 11,
-                    StartingDate = DateTime.Now,
-                    EndDate = DateTime.Now,
+                    StartingDate = new DateTime(2023, 1, 1, 00, 00, 00),
+                    EndDate = new DateTime(2023, 12, 31, 00, 00, 00),
                     AnnualPolicyPremium = 599.49,
                     UserId = 2
                 },
+                new Contract
+                {
+                    Id = 4,
+                    Product = "Personenauto",
+                    Make = "Porsche",
+                    Model = "Cayenne",
+                    LicensePlate = "X988RR",
+                    DamageFreeYears = 3,
+                    StartingDate = new DateTime(2022, 8, 12, 00, 00, 00),
+                    EndDate = new DateTime(2023, 12, 31, 00, 00, 00),
+                    AnnualPolicyPremium = 1599.49,
+                    UserId = 3
+                }
             };
             Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] contracts added");
             contractContext.Contracts.AddRange(contracts);
@@ -224,13 +237,16 @@ public class DataSeeder
         if (!claimFormContext.ClaimForms.Any())
         {
 
+            DateTime fixedDateTime1 = new DateTime(2023, 6, 1, 15, 26, 35);
+            DateTime fixedDateTime2 = new DateTime(2023, 5, 30, 23, 58, 11);
+            DateTime fixedDateTime3 = new DateTime(2023, 3, 25, 14, 13, 11);
             // Seed the data
             var claimForms = new List<ClaimForm>
             {
                 new ClaimForm
                 {
                     Id = 1,                    
-                    DateOfOccurence = DateTime.Now,
+                    DateOfOccurence = fixedDateTime1,
                     QCauseOfDamage = "Aanrijding met een vast object",
                     QWhereDamaged = "Somewhere at night",
                     QWhatIsDamaged = "The doors en trunk of my lamborghini are damaged. And the windshields are broken",
@@ -243,6 +259,57 @@ public class DataSeeder
                     Latitude = 51.95059777234066, 
                     Longitude = 4.562103388325112,
                     ContractId = 1
+                },
+                new ClaimForm
+                {
+                    Id = 2,
+                    DateOfOccurence = fixedDateTime2,
+                    QCauseOfDamage = "Aanrijding met een vast object",
+                    QWhereDamaged = "Where is the damage",
+                    QWhatIsDamaged = "Everything is broken!",
+                    Image1 = null,
+                    Image2 = null,
+                    Street = "Pleinweg",
+                    Suite = "12",
+                    City = "Rotterdam",
+                    Zipcode = "3067GK",
+                    Latitude = 51.95059777234066,
+                    Longitude = 4.562103388325112,
+                    ContractId = 1
+                },
+                new ClaimForm
+                {
+                    Id = 3,
+                    DateOfOccurence = fixedDateTime3,
+                    QCauseOfDamage = "Ruitschade",
+                    QWhereDamaged = "Where is the damage",
+                    QWhatIsDamaged = "Everything is broken!",
+                    Image1 = null,
+                    Image2 = null,
+                    Street = "Coolsingel",
+                    Suite = "12",
+                    City = "Rotterdam",
+                    Zipcode = "3068GK",
+                    Latitude = 51.95059777234066,
+                    Longitude = 4.562103388325112,
+                    ContractId = 2
+                },
+                new ClaimForm
+                {
+                    Id = 4,
+                    DateOfOccurence = fixedDateTime3,
+                    QCauseOfDamage = "Ruitschade",
+                    QWhereDamaged = "Where is the damage",
+                    QWhatIsDamaged = "Everything is broken!",
+                    Image1 = null,
+                    Image2 = null,
+                    Street = "Waterlelie",
+                    Suite = "88",
+                    City = "Rotterdam",
+                    Zipcode = "3022GK",
+                    Latitude = 51.95059777234066,
+                    Longitude = 4.562103388325112,
+                    ContractId = 4
                 },
             };
             Debug.WriteLine(DateTime.Now + "[--------] [DataSeeder] claimforms added");

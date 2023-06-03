@@ -10,5 +10,6 @@ public interface IClaimFormRepository
     Task<ClaimForm> GetClaimForm(int id);
     Task<bool> UpdateClaimForm(ClaimForm claimForm);
     Task<bool> DeleteClaimForm(int id);
+    Task<IEnumerable<ClaimForm>> GetClaimFormsByContractIds(List<int> contractIds);
 
 }

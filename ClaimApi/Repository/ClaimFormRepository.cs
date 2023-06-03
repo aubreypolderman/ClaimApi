@@ -11,6 +11,13 @@ public class ClaimFormRepository : IClaimFormRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<ClaimForm>> GetClaimFormsByContractIds(List<int> contractIds)
+    {
+        return await _context.ClaimForms
+            .Where(cf => contractIds.Contains(cf.ContractId))
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<ClaimForm>> GetAllClaimForms()
     {
         return await _context.ClaimForms.ToListAsync();

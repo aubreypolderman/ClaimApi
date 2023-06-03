@@ -18,7 +18,14 @@ public class ContractRepository : IContractRepository
 
     public async Task<Contract> GetContract(int id)
     {
+        //var contract = await _context.Contracts.FindAsync(id);
+        //return contract;
         return await _context.Contracts.FindAsync(id);
+//        var contract = await _context.Contracts
+    //.Include(c => c.User) // Join met het User-object
+//    .FirstOrDefaultAsync(c => c.Id == id);
+
+        //return contract;
     }
 
     public async Task<Contract> CreateContract(Contract contract)
