@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ClaimApi.Model;
 using ClaimApi.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClaimApi.Controllers
 {
@@ -22,6 +23,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompanies()
         {
             var repaircompanies = await _repairCompanyRepository.GetAllRepairCompanies();
@@ -29,6 +31,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<RepairCompany>> GetRepairCompany(int id)
         {
             var repairCompany = await _repairCompanyRepository.GetRepairCompany(id);
@@ -39,6 +42,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<RepairCompany>> CreateRepairCompany(RepairCompany repairCompany)
         {
             var createdRepairCompany = await _repairCompanyRepository.CreateRepairCompany(repairCompany);
@@ -46,6 +50,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRepairCompany(int id, RepairCompany repairCompany)
         {
             if (id != repairCompany.Id)
@@ -59,6 +64,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRepairCompanyt(int id)
         {
             var result = await _repairCompanyRepository.DeleteRepairCompany(id);

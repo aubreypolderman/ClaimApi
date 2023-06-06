@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ClaimApi.Model;
 using ClaimApi.Repository;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClaimApi.Controllers
 {
@@ -24,7 +25,7 @@ namespace ClaimApi.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
+        [HttpGet("private")]
         public async Task<ActionResult<IEnumerable<ContractDto>>> GetContracts()
         {
             var contracts = await _contractRepository.GetAllContracts();
@@ -66,6 +67,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ContractDto>> GetContract(int id)
         {
             var contract = await _contractRepository.GetContract(id);
@@ -139,6 +141,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ContractDto>>> GetContractsByUserId(int userId)
         {
             var contracts = await _contractRepository.GetContractsByUserId(userId);
