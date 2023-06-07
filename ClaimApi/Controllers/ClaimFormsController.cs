@@ -10,6 +10,7 @@ using ClaimApi.Repository;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClaimApi.Controllers
 {
@@ -27,6 +28,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaims()
         {
             var claimForms = await _claimFormRepository.GetAllClaimForms();
@@ -127,6 +129,7 @@ namespace ClaimApi.Controllers
         }
         */
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaimsByUserId(int userId)
         {
             var contracts = await _contractRepository.GetContractsByUserId(userId);
@@ -178,6 +181,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ClaimForm>> CreateClaimForm(ClaimForm claimForm)
         {
             Debug.WriteLine("[..............] [ClaimFormController] [CreateClaimForm] Make claim for contract with id " + claimForm.ContractId);
@@ -198,6 +202,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateClaimForm(int id, ClaimForm claimForm)
         {
             if (id != claimForm.Id)
@@ -212,6 +217,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteClaimForm(int id)
         {
             var result = await _claimFormRepository.DeleteClaimForm(id);
@@ -222,6 +228,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ClaimFormDto>> GetClaimForm(int id)
         {
             var claimForm = await _claimFormRepository.GetClaimForm(id);

@@ -37,6 +37,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
+        //[Authorize]
         //[HttpPost("private-scoped")]
         //[Authorize("read:messages")]
         public async Task<ActionResult<User>> CreateUser(User user)
