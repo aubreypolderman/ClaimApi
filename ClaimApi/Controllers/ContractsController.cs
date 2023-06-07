@@ -25,7 +25,8 @@ namespace ClaimApi.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet("private")]
+        [HttpGet()]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ContractDto>>> GetContracts()
         {
             var contracts = await _contractRepository.GetAllContracts();
@@ -99,6 +100,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Contract>> CreateContract(Contract contract)
         {
             Debug.WriteLine("[..............] [ContractsController] [CreateContract] Make contract for user with id " + contract.UserId);
@@ -117,6 +119,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateContract(int id, Contract contract)
         {
             if (id != contract.Id)
@@ -131,6 +134,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteContract(int id)
         {
             var result = await _contractRepository.DeleteContract(id);
