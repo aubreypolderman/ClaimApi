@@ -28,7 +28,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaims()
         {
             var claimForms = await _claimFormRepository.GetAllClaimForms();
@@ -74,62 +74,8 @@ namespace ClaimApi.Controllers
             return Ok(claimFormDtos);
         }
 
-
-        /*
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaimsByUserId(int userId)
-        {
-            Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] Get claims for user with id " + userId);
-            var claimForms = await _claimFormRepository.GetClaimFormsByUserId(userId);
-            Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] Count of claims: " + claimForms.Count());
-            // Create a list to store ClaimFormDto objects
-            var claimFormDtos = new List<ClaimFormDto>();
-
-            foreach (var claimForm in claimForms)
-            {
-                // Get the Contract associated with the ClaimForm
-                Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] Working on claim with claim id: " + claimForm.Id);
-                Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] GeT CONTRACT with id: " + claimForm.ContractId);
-                var contract = await _contractRepository.GetContract(claimForm.ContractId);
-                if (contract == null)
-                {
-                    // Skip this ClaimForm if the associated Contract is not found
-                    Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] No CONTRACT with id: " + claimForm.ContractId);
-                    continue;
-                }
-
-                // Map the ClaimForm model to a ClaimFormDto
-                var claimFormDto = new ClaimFormDto
-                {
-                    Id = claimForm.Id,
-                    DateOfOccurence = claimForm.DateOfOccurence,
-                    QCauseOfDamage = claimForm.QCauseOfDamage,
-                    QWhatHappened = claimForm.QWhatHappened,
-                    QWhereDamaged = claimForm.QWhereDamaged,
-                    QWhatIsDamaged = claimForm.QWhatIsDamaged,
-                    Image1 = claimForm.Image1,
-                    Image2 = claimForm.Image2,
-                    Street = claimForm.Street,
-                    Suite = claimForm.Suite,
-                    City = claimForm.City,
-                    Zipcode = claimForm.Zipcode,
-                    Latitude = claimForm.Latitude,
-                    Longitude = claimForm.Longitude,
-                    ContractId = claimForm.ContractId,
-                    Contract = contract
-                };
-
-                // Add the ClaimFormDto to the list
-                Debug.WriteLine("[..............] [ClaimFormController] [GetClaimsByUserId] Add claimDto to list for claim with id: " + claimForm.Id);
-                claimFormDtos.Add(claimFormDto);
-            }
-
-            return Ok(claimFormDtos);
-            //return Ok(claims);
-        }
-        */
-        [HttpGet("user/{userId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<ClaimFormDto>>> GetClaimsByUserId(int userId)
         {
             var contracts = await _contractRepository.GetContractsByUserId(userId);
@@ -181,7 +127,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+       // [Authorize]
         public async Task<ActionResult<ClaimForm>> CreateClaimForm(ClaimForm claimForm)
         {
             Debug.WriteLine("[..............] [ClaimFormController] [CreateClaimForm] Make claim for contract with id " + claimForm.ContractId);
@@ -202,7 +148,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> UpdateClaimForm(int id, ClaimForm claimForm)
         {
             if (id != claimForm.Id)
@@ -217,7 +163,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteClaimForm(int id)
         {
             var result = await _claimFormRepository.DeleteClaimForm(id);
@@ -228,7 +174,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+       // [Authorize]
         public async Task<ActionResult<ClaimFormDto>> GetClaimForm(int id)
         {
             var claimForm = await _claimFormRepository.GetClaimForm(id);

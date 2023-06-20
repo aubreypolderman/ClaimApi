@@ -18,7 +18,7 @@ namespace ClaimApi.Controllers
         }      
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await _userRepository.GetAllUsers();
@@ -26,7 +26,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var result = await _userRepository.GetUser(id);
@@ -37,7 +37,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         //[HttpPost("private-scoped")]
         //[Authorize("read:messages")]
         public async Task<ActionResult<User>> CreateUser(User user)
@@ -47,7 +47,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
             if (id != user.Id)
@@ -61,7 +61,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var result = await _userRepository.DeleteUser(id);

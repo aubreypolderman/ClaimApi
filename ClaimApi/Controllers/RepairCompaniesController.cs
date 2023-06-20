@@ -23,7 +23,7 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+       // [Authorize]
         public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompanies()
         {
             var repaircompanies = await _repairCompanyRepository.GetAllRepairCompanies();
