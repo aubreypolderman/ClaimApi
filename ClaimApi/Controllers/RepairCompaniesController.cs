@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ClaimApi.Model;
 using ClaimApi.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Azure;
+using System.Diagnostics;
 
 namespace ClaimApi.Controllers
 {
@@ -23,10 +25,13 @@ namespace ClaimApi.Controllers
         }
 
         [HttpGet]
-       // [Authorize]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RepairCompany>>> GetRepairCompanies()
         {
+            Debug.WriteLine(DateTime.Now + "[--------] [RepairCompanyController] repaircompanies ");
+            Debug.WriteLine(DateTime.Now + "[.........][RepairCompanyController] [GetRepairCompanies] Start");
             var repaircompanies = await _repairCompanyRepository.GetAllRepairCompanies();
+            Debug.WriteLine(DateTime.Now + "[.........][RepairCompanyController] [GetRepairCompanies] repaircompanies count = " + repaircompanies.Count());
             return Ok(repaircompanies);
         }
 

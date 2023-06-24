@@ -90,7 +90,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpLogging();
-app.UseHttpsRedirection();
+
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 using (var serviceScope = app.Services.CreateScope())

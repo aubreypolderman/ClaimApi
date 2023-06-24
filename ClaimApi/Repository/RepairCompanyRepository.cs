@@ -1,6 +1,7 @@
 ﻿using ClaimApi.Model;
 using ClaimApi.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 public class RepairCompanyRepository : IRepairCompanyRepository
 {
@@ -13,7 +14,9 @@ public class RepairCompanyRepository : IRepairCompanyRepository
 
     public async Task<IEnumerable<RepairCompany>> GetAllRepairCompanies()
     {
+        Debug.WriteLine(DateTime.Now + "[--------] [RepairCompanyRepository] start ");
         return await _context.RepairCompanies.ToListAsync();
+        
     }
 
     public async Task<RepairCompany> GetRepairCompany(int id)
